@@ -1,4 +1,4 @@
-# nativify
+# nativify ![Build](https://github.com/someone-stole-my-name/nativify/workflows/Build/badge.svg?branch=master)
 
 Create 'native' apps from websites
 
