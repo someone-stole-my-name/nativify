@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"nativify/command"
+	"github.com/someone-stole-my-name/nativify/command"
 
 	"github.com/mitchellh/cli"
 )

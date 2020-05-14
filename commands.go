@@ -1,7 +1,7 @@
 package main
 
 import (
-	"nativify/command"
+	"github.com/someone-stole-my-name/nativify/command"
 
 	"github.com/mitchellh/cli"
 )
