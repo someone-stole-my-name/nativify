@@ -1,4 +1,4 @@
-module nativify
+module github.com/someone-stole-my-name/nativify
 
 go 1.13
 
