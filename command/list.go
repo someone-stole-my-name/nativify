@@ -2,7 +2,6 @@ package command
 
 import (
 	"io/ioutil"
-	"log"
 	"os/user"
 	"regexp"
 	"strings"
@@ -17,15 +16,11 @@ func (c *ListCommand) Run(args []string) int {
 	dir := usr.HomeDir
 	root := dir + "/.local/share/applications/"
 	files, err := ioutil.ReadDir(root)
-	if err != nil {
-		log.Fatal(err)
-	}
+	checkerr(err)
 
 	for _, file := range files {
 		b, err := ioutil.ReadFile(dir + "/.local/share/applications/" + file.Name())
-		if err != nil {
-			panic(err)
-		}
+		checkerr(err)
 		if strings.Contains(string(b), "Nativify") {
 			pat := regexp.MustCompile(`Name=.*`)
 			ext := pat.FindString(string(b))

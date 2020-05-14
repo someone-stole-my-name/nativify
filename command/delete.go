@@ -25,9 +25,7 @@ func (c *DeleteCommand) Run(args []string) int {
 
 	for _, file := range files {
 		b, err := ioutil.ReadFile(dir + "/.local/share/applications/" + file.Name())
-		if err != nil {
-			panic(err)
-		}
+		checkerr(err)
 		if strings.Contains(string(b), "Nativify") {
 			pat := regexp.MustCompile(`Name=.*`)
 			ext := pat.FindString(string(b))
@@ -35,9 +33,7 @@ func (c *DeleteCommand) Run(args []string) int {
 			if name[1] == args[0] {
 				fmt.Println(file.Name())
 				err := os.Remove(dir + "/.local/share/applications/" + file.Name())
-				if err != nil {
-					panic(err)
-				}
+				checkerr(err)
 				c.Ui.Output("Deleted " + args[0])
 				return 0
 			}

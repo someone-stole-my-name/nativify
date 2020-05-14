@@ -29,9 +29,7 @@ func (c *AddCommand) Run(args []string) int {
 	}
 
 	iconpath, err := ensureIcon(args[2])
-	if err != nil {
-		panic(err)
-	}
+	checkerr(err)
 
 	appTemplate, _ := template.New("App").Parse("[Desktop Entry]\nVersion=1.0\nType=Application\nName={{.Name}}\nComment=Nativify\nExec={{.Exec}}\nIcon={{.Icon}}\nTerminal=false\nStartupNotify=true\nStartupWMClass={{.StartupWMClass}}")
 	var (
@@ -50,13 +48,10 @@ func (c *AddCommand) Run(args []string) int {
 	usr, _ := user.Current()
 	dir := usr.HomeDir
 	err = ensureAppsDir()
-	if err != nil {
-		panic(err)
-	}
+	checkerr(err)
+
 	err = ioutil.WriteFile(dir+"/.local/share/applications/"+strings.ToLower(strings.Replace(args[0], " ", "", -1))+".desktop", buf.Bytes(), 0644)
-	if err != nil {
-		panic(err)
-	}
+	checkerr(err)
 	c.Ui.Output("Done")
 	return 0
 }
@@ -78,21 +73,15 @@ name: App Name
 
 func genWMClass(k string) string {
 	u, err := url.Parse(k)
-	if err != nil {
-		panic(err)
-	}
+	checkerr(err)
 	return u.Hostname()
 }
 
 func ensureIcon(u string) (icon string, err error) {
 	err = ensureIconsDir()
-	if err != nil {
-		panic(err)
-	}
+	checkerr(err)
 	ur, err := url.Parse(u)
-	if err != nil {
-		panic(err)
-	}
+	checkerr(err)
 	filename := path.Base(ur.Path)
 	usr, _ := user.Current()
 	dir := usr.HomeDir
