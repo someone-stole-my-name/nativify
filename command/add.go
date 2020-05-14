@@ -49,6 +49,10 @@ func (c *AddCommand) Run(args []string) int {
 
 	usr, _ := user.Current()
 	dir := usr.HomeDir
+	err = ensureAppsDir()
+	if err != nil {
+		panic(err)
+	}
 	err = ioutil.WriteFile(dir+"/.local/share/applications/"+strings.ToLower(strings.Replace(args[0], " ", "", -1))+".desktop", buf.Bytes(), 0644)
 	if err != nil {
 		panic(err)
@@ -81,6 +85,10 @@ func genWMClass(k string) string {
 }
 
 func ensureIcon(u string) (icon string, err error) {
+	err = ensureIconsDir()
+	if err != nil {
+		panic(err)
+	}
 	ur, err := url.Parse(u)
 	if err != nil {
 		panic(err)
@@ -100,5 +108,19 @@ func ensureIcon(u string) (icon string, err error) {
 	defer out.Close()
 	_, err = io.Copy(out, resp.Body)
 	icon = dir + "/.local/share/icons/" + filename
+	return
+}
+
+func ensureIconsDir() (err error) {
+	usr, _ := user.Current()
+	dir := usr.HomeDir
+	err = os.MkdirAll(dir+"/.local/share/iconsderPath", os.ModePerm)
+	return
+}
+
+func ensureAppsDir() (err error) {
+	usr, _ := user.Current()
+	dir := usr.HomeDir
+	err = os.MkdirAll(dir+"/.local/share/applications", os.ModePerm)
 	return
 }
